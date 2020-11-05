@@ -1,6 +1,14 @@
 {% extends "index.html" %}
 {% block content %}
 
+<br>
+<div class="row align-items-end">
+  <div class="col-lg-12 mb-4">
+    {% for list_type in list_types %}
+      <a href="{{ url_for_list_type(list_type) }}" class="btn btn-outline-info">{{ list_type }}</a>
+    {% endfor %}
+  </div>
+</div>
 <div class="row">
   <div class="col-lg-12 text-center">
     <h1 class="mt-5">Moja biblioteka filmów</h1>
@@ -8,14 +16,14 @@
   </div>
   {% for movie in movies %}
   <div class="col-lg-3 col-md-6 mb-4">
-      <div class="card h-100 {{ color }}">
-          <img class="card-img-top" src="http://placehold.it/300x500" alt="">
+      <div class="card h-100 {{ age_category(movie) }}">
+          <img class="card-img-top" src="{{ tmdb_image_url(movie.poster_path, "w342") }}" alt="">
           <div class="card-body">
-              <h4 class="card-title">{{ movie }}</h4>
-              <p class="card-text">Testowy tekst to jest, taki sam wszędzie<p>
+              <h4 class="card-title">{{ movie.original_title }}</h4>
+              <p class="card-text">{{ movie.overview[:80] }}...<p>
           </div>
           <div class="card-footer text-center">
-              <a href="#" class="btn btn-primary">Pokaż więcej</a>
+              <a href="{{ url_for("movie_details", movie_id=movie.id) }}">Pokaż więcej</a>
           </div>
       </div>
   </div>
