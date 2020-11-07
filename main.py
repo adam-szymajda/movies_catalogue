@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 import tmdb_client
 import time
 
@@ -8,10 +8,13 @@ app = Flask(__name__)
 @app.route("/")
 def homepage():
     count = 8
-    list_types = ["latest", "now_playing", "popular", "top_rated", "upcoming"]
+    list_types = ["incorrect", "now_playing", "popular", "top_rated", "upcoming"]
     selected_list = request.args.get('list_name', "popular")
-    movies = tmdb_client.get_movie_lists(count, list_name=selected_list)
-    return render_template("homepage.html", movies=movies, list_types=list_types)
+    movies, status_code = tmdb_client.get_movie_lists(count, list_name=selected_list)
+    if status_code == 200:
+        return render_template("homepage.html", movies=movies, list_types=list_types, selected_list=selected_list)
+    else:
+        return render_template("homepage.html", movies=movies, list_types=list_types, selected_list='popular')
 
 
 @app.route("/movie/<movie_id>/")
@@ -38,7 +41,7 @@ def utility_processor():
 @app.context_processor
 def utility_processor():
     def url_for_list_type(list_type):
-        return f'url_for("homepage", list_name="{list_type}")'
+        return url_for('homepage', list_name=list_type)
     return {'url_for_list_type': url_for_list_type}
 
 

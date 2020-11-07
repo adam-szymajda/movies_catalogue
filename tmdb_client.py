@@ -19,9 +19,13 @@ def get_movie_lists(limit, list_name):
         "Authorization": f"Bearer {API_TOKEN}"
     }
     response = requests.get(ENDPOINT, headers=headers)
-    response.raise_for_status()
+    original_status_code = response.status_code
+    # response.raise_for_status()
+    if response.status_code == 404:
+        ENDPOINT = f"https://api.themoviedb.org/3/movie/popular"
+        response = requests.get(ENDPOINT, headers=headers)
     randomised_response = random.sample(response.json()['results'], k=limit)
-    return randomised_response
+    return randomised_response, original_status_code
     # return response.json()['results'][:limit]
 
 def get_single_movie(movie_id):
