@@ -1,7 +1,9 @@
+import os
 import requests
 import random
 
-API_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NDI0ZTdhMTBhZDBiMmQ4ZDFlYzg5ZjMwZDFmNWQ4NiIsInN1YiI6IjVmYTE4ZDlmNjkxY2Q1MDAzNmNlMzYwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jQq0KYdq0F6vc9XZXu9_pDocr2A_4uCZsR2lVmozQMQ"
+API_TOKEN = os.environ.get('TMDB_API_TOKEN')
+# = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NDI0ZTdhMTBhZDBiMmQ4ZDFlYzg5ZjMwZDFmNWQ4NiIsInN1YiI6IjVmYTE4ZDlmNjkxY2Q1MDAzNmNlMzYwZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jQq0KYdq0F6vc9XZXu9_pDocr2A_4uCZsR2lVmozQMQ"
 
 def get_popular_movies(limit):
     ENDPOINT = "https://api.themoviedb.org/3/movie/popular"
